@@ -29,31 +29,31 @@ namespace DrawingModel
         }
 
         // PointerPressed
-        public void PointerPressed(double x, double y)
+        public void HandlePointerPressed(double x1, double y1)
         {
-            if (x > 0 && y > 0)
+            if (x1 > 0 && y1 > 0)
             {
-                _firstPointX = x;
-                _firstPointY = y;
-                _hintShape._x1 = _firstPointX;
-                _hintShape._y1 = _firstPointY;
+                _firstPointX = x1;
+                _firstPointY = y1;
+                _hintShape.X1 = _firstPointX;
+                _hintShape.Y1 = _firstPointY;
                 _isPressed = true;
             }
         }
 
         // PointerMoved
-        public void PointerMoved(double x, double y)
+        public void HandlePointerMoved(double x2, double y2)
         {
             if (_isPressed)
             {
-                _hintShape._x2 = x;
-                _hintShape._y2 = y;
+                _hintShape.X2 = x2;
+                _hintShape.Y2 = y2;
                 NotifyModelChanged();
             }
         }
 
         // PointerReleased
-        public void PointerReleased(double x, double y)
+        public void HandlePointerReleased(double x2, double y2)
         {
             if (_isPressed)
             {

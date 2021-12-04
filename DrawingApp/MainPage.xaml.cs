@@ -29,8 +29,7 @@ namespace DrawingApp
         {
             this.InitializeComponent();
             _model = new DrawingModel.Model();
-            _presentationModel = new PresentationModel.PresentationModel(_model,
-           _canvas);
+            _presentationModel = new PresentationModel.PresentationModel(_model, _canvas);
             _canvas.PointerPressed += HandleCanvasPressed;
             _canvas.PointerReleased += HandleCanvasReleased;
             _canvas.PointerMoved += HandleCanvasMoved;
@@ -47,24 +46,31 @@ namespace DrawingApp
         {
         }
 
+        // HandleClearButtonClick
         private void HandleClearButtonClick(object sender, RoutedEventArgs e)
         {
             _model.Clear();
         }
+
+        // HandleCanvasPressed
         public void HandleCanvasPressed(object sender, PointerRoutedEventArgs e)
         {
-            _model.PointerPressed(e.GetCurrentPoint(_canvas).Position.X,
-           e.GetCurrentPoint(_canvas).Position.Y);
+            _model.HandlePointerPressed(e.GetCurrentPoint(_canvas).Position.X, e.GetCurrentPoint(_canvas).Position.Y);
         }
 
+        // HandleCanvasReleased
         public void HandleCanvasReleased(object sender, PointerRoutedEventArgs e)
         {
-            _model.PointerReleased(e.GetCurrentPoint(_canvas).Position.X, e.GetCurrentPoint(_canvas).Position.Y);
+            _model.HandlePointerReleased(e.GetCurrentPoint(_canvas).Position.X, e.GetCurrentPoint(_canvas).Position.Y);
         }
+
+        // HandleCanvasMoved
         public void HandleCanvasMoved(object sender, PointerRoutedEventArgs e)
         {
-            _model.PointerMoved(e.GetCurrentPoint(_canvas).Position.X, e.GetCurrentPoint(_canvas).Position.Y);
+            _model.HandlePointerMoved(e.GetCurrentPoint(_canvas).Position.X, e.GetCurrentPoint(_canvas).Position.Y);
         }
+
+        // HandleModelChanged
         public void HandleModelChanged()
         {
             _presentationModel.Draw();

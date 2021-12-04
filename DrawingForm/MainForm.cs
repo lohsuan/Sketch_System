@@ -59,7 +59,7 @@ namespace DrawingForm
         // HandleCanvasPressed
         public void HandleCanvasPressed(object sender, MouseEventArgs e)
         {
-            _model.PointerPressed(e.X, e.Y);
+            _model.HandlePointerPressed(e.X, e.Y);
         }
 
         // HandleCanvasReleased
@@ -67,13 +67,13 @@ namespace DrawingForm
         {
             foreach (Button button in _shapesButton)
                 button.Enabled = true;
-            _model.PointerReleased(e.X, e.Y);
+            _model.HandlePointerReleased(e.X, e.Y);
         }
 
         // HandleCanvasMoved
         public void HandleCanvasMoved(object sender, MouseEventArgs e)
         {
-            _model.PointerMoved(e.X, e.Y);
+            _model.HandlePointerMoved(e.X, e.Y);
         }
 
         // HandleCanvasPaint
