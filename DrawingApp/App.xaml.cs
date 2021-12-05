@@ -22,6 +22,8 @@ namespace DrawingApp
     /// </summary>
     sealed partial class App : Application
     {
+        private const string FAIL_TO_LOAD_PAGE = "Failed to load Page ";
+
         /// <summary>
         /// 初始化單一應用程式物件。這是第一行執行之撰寫程式碼，
         /// 而且其邏輯相當於 main() 或 WinMain()。
@@ -80,7 +82,7 @@ namespace DrawingApp
         /// <param name="e">有關巡覽失敗的詳細資料</param>
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            throw new Exception(FAIL_TO_LOAD_PAGE + e.SourcePageType.FullName);
         }
 
         /// <summary>

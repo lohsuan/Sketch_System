@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace DrawingModel
 {
-    class Model
+    public class Model
     {
         public event ModelChangedEventHandler _modelChanged;
         public delegate void ModelChangedEventHandler();
@@ -10,9 +10,10 @@ namespace DrawingModel
         double _firstPointY;
         bool _isPressed = false;
         List<Shape> _shapes = new List<Shape>();
-        Shape _hintShape = new Rectangle();
+        Shape _hintShape = new Shape();
         const string ELLIPSE = "Ellipse";
         const string RECTANGLE = "Rectangle";
+        private const string SHAPE = "Shape";
 
         // ChangeShape
         public void ChangeShape(string shapeType)
@@ -55,7 +56,7 @@ namespace DrawingModel
         // PointerReleased
         public void HandlePointerReleased(double x2, double y2)
         {
-            if (_isPressed)
+            if (_isPressed && (_hintShape.GetType().Name != SHAPE))
             {
                 _isPressed = false;
                 _shapes.Add(_hintShape);
@@ -68,6 +69,7 @@ namespace DrawingModel
         {
             _isPressed = false;
             _shapes.Clear();
+            _hintShape = new Shape();
             NotifyModelChanged();
         }
 
@@ -82,10 +84,16 @@ namespace DrawingModel
         }
 
         // NotifyModelChanged
-        void NotifyModelChanged()
+        public void NotifyModelChanged()
         {
             if (_modelChanged != null)
                 _modelChanged();
+        }
+
+        // GetHintShape
+        public Shape GetHintShape()
+        {
+            return _hintShape;
         }
     }
 }
