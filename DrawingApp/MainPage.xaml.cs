@@ -24,6 +24,7 @@ namespace DrawingApp
     {
         DrawingModel.Model _model;
         PresentationModel.PresentationModel _presentationModel;
+        List<Button> _shapesButton = new List<Button>();
 
         public MainPage()
         {
@@ -35,6 +36,11 @@ namespace DrawingApp
             _canvas.PointerMoved += HandleCanvasMoved;
             _clear.Click += HandleClearButtonClick;
             _model._modelChanged += HandleModelChanged;
+
+            _rectangle.Click += HandleShapeButtonClick;
+            _ellipse.Click += HandleShapeButtonClick;
+            _shapesButton.Add(_rectangle);
+            _shapesButton.Add(_ellipse);
         }
 
         /// <summary>
@@ -52,6 +58,16 @@ namespace DrawingApp
             _model.Clear();
         }
 
+        // HandleClearButtonClick
+        private void HandleShapeButtonClick(object sender, RoutedEventArgs e)
+        {
+            foreach (Button button in _shapesButton)
+                button.IsEnabled = true;
+            Button pressedButton = (Button)sender;
+            pressedButton.IsEnabled = false;
+            _model.ChangeShape(pressedButton.Content.ToString());
+        }
+
         // HandleCanvasPressed
         public void HandleCanvasPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -61,6 +77,8 @@ namespace DrawingApp
         // HandleCanvasReleased
         public void HandleCanvasReleased(object sender, PointerRoutedEventArgs e)
         {
+            foreach (Button button in _shapesButton)
+                button.IsEnabled = true;
             _model.HandlePointerReleased(e.GetCurrentPoint(_canvas).Position.X, e.GetCurrentPoint(_canvas).Position.Y);
         }
 

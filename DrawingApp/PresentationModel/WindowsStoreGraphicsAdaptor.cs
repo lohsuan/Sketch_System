@@ -34,25 +34,48 @@ namespace DrawingApp.PresentationModel
         // DrawEllipse
         public void DrawEllipse(double x1, double y1, double width, double height)
         {
-            throw new System.NotImplementedException();
+            Windows.UI.Xaml.Shapes.Ellipse ellipse = new Windows.UI.Xaml.Shapes.Ellipse();
+            ellipse.Margin = new Windows.UI.Xaml.Thickness(x1, y1, 0, 0);
+            ellipse.Width = width;
+            ellipse.Height = height;
+            ellipse.Stroke = new SolidColorBrush(Colors.Black);
+            _canvas.Children.Add(ellipse);
+
         }
 
         // DrawRectangle
         public void DrawRectangle(double x1, double y1, double width, double height)
         {
-            throw new System.NotImplementedException();
+            Windows.UI.Xaml.Shapes.Rectangle rectangle = new Windows.UI.Xaml.Shapes.Rectangle();
+            rectangle.Margin = new Windows.UI.Xaml.Thickness(x1, y1, 0, 0);
+            rectangle.Width = width;
+            rectangle.Height = height;
+            rectangle.Stroke = new SolidColorBrush(Colors.Black);
+            _canvas.Children.Add(rectangle);
         }
 
         // FillEllipse
         public void FillEllipse(double x1, double y1, double width, double height)
         {
-            throw new System.NotImplementedException();
+            Windows.UI.Xaml.Shapes.Ellipse ellipse = new Windows.UI.Xaml.Shapes.Ellipse();
+            ellipse.Margin = new Windows.UI.Xaml.Thickness(x1, y1, 0, 0);
+            ellipse.Width = width;
+            ellipse.Height = height;
+            ellipse.Stroke = new SolidColorBrush(Colors.Black);
+            ellipse.Fill = new SolidColorBrush(Colors.Orange);
+            _canvas.Children.Add(ellipse);
         }
 
         // FillRectangle
         public void FillRectangle(double x1, double y1, double width, double height)
         {
-            throw new System.NotImplementedException();
+            Windows.UI.Xaml.Shapes.Rectangle rectangle = new Windows.UI.Xaml.Shapes.Rectangle();
+            rectangle.Margin = new Windows.UI.Xaml.Thickness(x1, y1, 0, 0);
+            rectangle.Width = width;
+            rectangle.Height = height;
+            rectangle.Stroke = new SolidColorBrush(Colors.Black);
+            rectangle.Fill = new SolidColorBrush(Colors.Yellow);
+            _canvas.Children.Add(rectangle);
         }
     }
 }
