@@ -6,8 +6,8 @@ namespace DrawingModelUITest
 {
     /// <summary>
     /// Please change display of the computer to 100% to execute codeing ui test
-    /// Summary description for CourseSystemUITest
-    /// number of total ui test: 11
+    /// Summary description for DrawingModelUITest
+    /// number of total ui test: 2
     /// </summary>
     [CodedUITest]
     public class UITest

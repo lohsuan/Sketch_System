@@ -58,10 +58,10 @@ namespace DrawingModel
         {
             if (_isPressed && (_hintShape.GetType().Name != SHAPE))
             {
-                _isPressed = false;
                 _shapes.Add(_hintShape);
                 NotifyModelChanged();
             }
+            _isPressed = false;
         }
 
         // Clear
