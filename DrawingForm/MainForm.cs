@@ -12,6 +12,7 @@ namespace DrawingForm
 {
     public partial class MainForm : Form
     {
+        private const string CANVAS = "canvas";
         DrawingModel.Model _model;
         PresentationModel.PresentationModel _presentationModel;
         Panel _canvas = new DoubleBufferedPanel();
@@ -21,6 +22,8 @@ namespace DrawingForm
         {
             InitializeComponent();
             // prepare canvas
+            _canvas.IsAccessible = true;
+            _canvas.AccessibleName = CANVAS;
             _canvas.Dock = DockStyle.Fill;
             _canvas.BackColor = Color.LightYellow;
             _canvas.MouseDown += HandleCanvasPressed;
