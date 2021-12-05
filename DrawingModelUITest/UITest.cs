@@ -45,6 +45,38 @@ namespace DrawingModelUITest
             RobotTest.AssertButtonEnable("Clear", true);
         }
 
+        // DrawRectangleTest
+        [TestMethod]
+        public void DrawRectangleTest()
+        {
+            RobotTest.ClickButton("Rectangle");
+            RobotTest.AssertButtonEnable("Rectangle", false);
+            RobotTest.MouseDraw(375, 80, 525, 140);
+            RobotTest.AssertButtonEnable("Rectangle", true);
+        }
+
+        // DrawEllipseTest
+        [TestMethod]
+        public void DrawEllipseTest()
+        {
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.AssertButtonEnable("Ellipse", false);
+            RobotTest.MouseDraw(375, 80, 525, 140);
+            RobotTest.AssertButtonEnable("Ellipse", true);
+        }
+
+        // ClearTest
+        [TestMethod]
+        public void ClearTest()
+        {
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.AssertButtonEnable("Ellipse", false);
+            RobotTest.MouseDraw(375, 80, 525, 140);
+            RobotTest.AssertButtonEnable("Ellipse", true);
+
+            RobotTest.ClickButton("Clear");
+        }
+
         // DrawingSnowManTest
         [TestMethod]
         public void DrawingSnowManTest()
