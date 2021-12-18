@@ -30,15 +30,19 @@ namespace DrawingForm
             _canvas.MouseUp += HandleCanvasReleased;
             _canvas.MouseMove += HandleCanvasMoved;
             _canvas.Paint += HandleCanvasPaint;
+
             Controls.Add(_canvas);
 
             // prepare presentation model and model
             _model = new DrawingModel.Model();
             _presentationModel = new PresentationModel.PresentationModel(_model, _canvas);
             _model._modelChanged += HandleModelChanged;
+            _model._shapeSelected += HandleShapeSelected;
+            _model._shapeNotSelected += HandleShapeNotSelected;
 
             _shapesButton.Add(_rectangle);
             _shapesButton.Add(_ellipse);
+            _shapesButton.Add(_line);
         }
 
         //HandleShapeButtonClick
@@ -91,5 +95,16 @@ namespace DrawingForm
             Invalidate(true);
         }
 
+        // HandleShapeSelected
+        public void HandleShapeSelected()
+        {
+            _shapeInfoLabel.Text = _model.GetShapeInfo();
+        }
+
+        // HandleShapeNotSelected
+        public void HandleShapeNotSelected()
+        {
+            _shapeInfoLabel.Text = null;
+        }
     }
 }

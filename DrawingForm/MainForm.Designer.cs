@@ -31,55 +31,87 @@ namespace DrawingForm
         {
             this._clear = new System.Windows.Forms.Button();
             this._ellipse = new System.Windows.Forms.Button();
+            this._line = new System.Windows.Forms.Button();
             this._rectangle = new System.Windows.Forms.Button();
+            this._shapeInfoLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
-
-            // _rectangle
-            this._rectangle.Location = new System.Drawing.Point(100, 10);
-            this._rectangle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this._rectangle.Name = "_rectangle";
-            this._rectangle.Size = new System.Drawing.Size(150, 30);
-            this._rectangle.TabIndex = 2;
-            this._rectangle.Text = "Rectangle";
-            this._rectangle.UseVisualStyleBackColor = true;
-            this._rectangle.Click += new System.EventHandler(this.HandleShapeButtonClick);
-
-            // _ellipse
-            this._ellipse.Location = new System.Drawing.Point(375, 10);
-            this._ellipse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this._ellipse.Name = "_ellipse";
-            this._ellipse.Size = new System.Drawing.Size(150, 30);
-            this._ellipse.TabIndex = 1;
-            this._ellipse.Text = "Ellipse";
-            this._ellipse.UseVisualStyleBackColor = true;
-            this._ellipse.Click += new System.EventHandler(this.HandleShapeButtonClick);
-
+            // 
             // _clear
+            // 
             this._clear.Location = new System.Drawing.Point(650, 10);
             this._clear.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this._clear.Name = "_clear";
-            this._clear.Size = new System.Drawing.Size(150, 30);
+            this._clear.Size = new System.Drawing.Size(130, 30);
             this._clear.TabIndex = 0;
             this._clear.Text = "Clear";
             this._clear.UseVisualStyleBackColor = true;
             this._clear.Click += new System.EventHandler(this.HandleClearButtonClick);
-
-            this.components = new System.ComponentModel.Container();
+            // 
+            // _ellipse
+            // 
+            this._ellipse.Location = new System.Drawing.Point(450, 10);
+            this._ellipse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this._ellipse.Name = "_ellipse";
+            this._ellipse.Size = new System.Drawing.Size(130, 30);
+            this._ellipse.TabIndex = 1;
+            this._ellipse.Text = "Ellipse";
+            this._ellipse.UseVisualStyleBackColor = true;
+            this._ellipse.Click += new System.EventHandler(this.HandleShapeButtonClick);
+            // 
+            // _line
+            // 
+            this._line.Location = new System.Drawing.Point(250, 10);
+            this._line.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this._line.Name = "_line";
+            this._line.Size = new System.Drawing.Size(130, 30);
+            this._line.TabIndex = 3;
+            this._line.Text = "Line";
+            this._line.UseVisualStyleBackColor = true;
+            this._line.Click += new System.EventHandler(this.HandleShapeButtonClick);
+            // 
+            // _rectangle
+            // 
+            this._rectangle.Location = new System.Drawing.Point(50, 10);
+            this._rectangle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this._rectangle.Name = "_rectangle";
+            this._rectangle.Size = new System.Drawing.Size(130, 30);
+            this._rectangle.TabIndex = 2;
+            this._rectangle.Text = "Rectangle";
+            this._rectangle.UseVisualStyleBackColor = true;
+            this._rectangle.Click += new System.EventHandler(this.HandleShapeButtonClick);
+            // 
+            // _shapeInfoLabel
+            // 
+            this._shapeInfoLabel.AutoSize = true;
+            this._shapeInfoLabel.Location = new System.Drawing.Point(631, 557);
+            this._shapeInfoLabel.Name = "_shapeInfoLabel";
+            this._shapeInfoLabel.Size = new System.Drawing.Size(0, 15);
+            this._shapeInfoLabel.TabIndex = 4;
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 600);
+            this.Controls.Add(this._shapeInfoLabel);
             this.Controls.Add(this._rectangle);
+            this.Controls.Add(this._line);
             this.Controls.Add(this._ellipse);
             this.Controls.Add(this._clear);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
 
         private System.Windows.Forms.Button _ellipse;
+        private System.Windows.Forms.Button _line;
         private System.Windows.Forms.Button _rectangle;
         private System.Windows.Forms.Button _clear;
+        private System.Windows.Forms.Label _shapeInfoLabel;
     }
 }
 

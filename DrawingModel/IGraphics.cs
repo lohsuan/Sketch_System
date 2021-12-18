@@ -22,5 +22,12 @@ namespace DrawingModel
 
         // FillEllipse
         void FillEllipse(double x1, double y1, double width, double height);
+
+        // DrawLine
+        void DrawLine(double x1, double y1, double x2, double y2);
+
+        // DrawBorder
+        void DrawBorder(double x1, double y1, double x2, double y2);
+
     }
 }

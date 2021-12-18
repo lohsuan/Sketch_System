@@ -6,27 +6,51 @@ namespace DrawingModel
     {
         public event ModelChangedEventHandler _modelChanged;
         public delegate void ModelChangedEventHandler();
+        public event ModelChangedEventHandler _shapeSelected;
+        public delegate void ShapeSelectedEventHandler();
+        public event ModelChangedEventHandler _shapeNotSelected;
+        public delegate void ShapeNotSelectedEventHandler();
+
         double _firstPointX;
         double _firstPointY;
         bool _isPressed = false;
         List<Shape> _shapes = new List<Shape>();
+        ShapeFactory _shapeFactory = new ShapeFactory();
         Shape _hintShape = new Shape();
-        const string ELLIPSE = "Ellipse";
-        const string RECTANGLE = "Rectangle";
+        Shape _selectedShape = null;
         private const string SHAPE = "Shape";
+        private const string LINE = "Line";
 
         // ChangeShape
         public void ChangeShape(string shapeType)
         {
-            switch (shapeType)
+            _hintShape = _shapeFactory.CreateShape(shapeType);
+            _selectedShape = null;
+            NotifyShapeNotSelected();
+        }
+
+        // CheckIsShapeIsClicked
+        public void CheckIsShapeIsClicked(double clickedPointX, double clickedPointY)
+        {
+            for (int i = _shapes.Count - 1; i >= 0; i--)
             {
-                case RECTANGLE:
-                    _hintShape = new Rectangle();
-                    break;
-                case ELLIPSE:
-                    _hintShape = new Ellipse();
-                    break;
+                if (_shapes[i].IsShapeClick(clickedPointX, clickedPointY))
+                {
+                    _selectedShape = _shapes[i];
+                    NotifyModelChanged();
+                    NotifyShapeSelected();
+                    return;
+                }
             }
+            _selectedShape = null;
+            NotifyModelChanged();
+            NotifyShapeNotSelected();
+        }
+
+        // GetShapeInfo
+        public string GetShapeInfo()
+        {
+            return _selectedShape.GetShapeInfo();
         }
 
         // PointerPressed
@@ -39,6 +63,7 @@ namespace DrawingModel
                 _hintShape.X1 = _firstPointX;
                 _hintShape.Y1 = _firstPointY;
                 _isPressed = true;
+                
             }
         }
 
@@ -56,10 +81,15 @@ namespace DrawingModel
         // PointerReleased
         public void HandlePointerReleased(double x2, double y2)
         {
+            if (_isPressed)
+            {
+                CheckIsShapeIsClicked(x2, y2);
+            }
             if (_isPressed && (_hintShape.GetType().Name != SHAPE))
             {
                 _shapes.Add(_hintShape);
                 NotifyModelChanged();
+                _hintShape = new Shape();
             }
             _isPressed = false;
         }
@@ -70,7 +100,9 @@ namespace DrawingModel
             _isPressed = false;
             _shapes.Clear();
             _hintShape = new Shape();
+            _selectedShape = null;
             NotifyModelChanged();
+            NotifyShapeNotSelected();
         }
 
         // Draw
@@ -81,6 +113,8 @@ namespace DrawingModel
                 aShape.Draw(graphics);
             if (_isPressed)
                 _hintShape.Draw(graphics);
+            if (_selectedShape != null)
+                _selectedShape.DrawBorder(graphics);
         }
 
         // NotifyModelChanged
@@ -88,6 +122,20 @@ namespace DrawingModel
         {
             if (_modelChanged != null)
                 _modelChanged();
+        }
+
+        // NotifyShapeSelected
+        public void NotifyShapeSelected()
+        {
+            if (_shapeSelected != null)
+                _shapeSelected();
+        }
+
+        // NotifyShapeNotSelected
+        public void NotifyShapeNotSelected()
+        {
+            if (_shapeNotSelected != null)
+                _shapeNotSelected();
         }
 
         // GetHintShape

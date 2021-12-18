@@ -52,6 +52,9 @@
     <Compile Include="..\DrawingModel\IGraphics.cs">
       <Link>Model\IGraphics.cs</Link>
     </Compile>
+    <Compile Include="..\DrawingModel\Line.cs">
+      <Link>Model\Line.cs</Link>
+    </Compile>
     <Compile Include="..\DrawingModel\Model.cs">
       <Link>Model\Model.cs</Link>
     </Compile>
@@ -60,6 +63,9 @@
     </Compile>
     <Compile Include="..\DrawingModel\Shape.cs">
       <Link>Model\Shape.cs</Link>
+    </Compile>
+    <Compile Include="..\DrawingModel\ShapeFactory.cs">
+      <Link>Model\ShapeFactory.cs</Link>
     </Compile>
     <Compile Include="DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
@@ -74,6 +80,9 @@
     <Compile Include="PresentationModel\WindowsFormsGraphicsAdaptor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

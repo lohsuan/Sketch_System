@@ -8,6 +8,10 @@ namespace DrawingModel
 {
     public class Shape
     {
+        private const string SELECTED = "Selected : ";
+        private const string LEFT_BRACKET = "(";
+        private const string RIGHT_BRACKET = ")";
+        private const string COMMA = ",";
         protected double _x;
         protected double _y;
         protected double _width;
@@ -17,6 +21,24 @@ namespace DrawingModel
         public virtual void Draw(IGraphics graphics)
         {
 
+        }
+
+        //DrawBorder
+        public void DrawBorder(IGraphics graphics)
+        {
+            graphics.DrawBorder(X1, Y1, X2, Y2);
+        }
+
+        // IsShapeClick
+        public bool IsShapeClick(double clickedPointX, double clickPointY)
+        {
+            return clickedPointX > X1 && clickedPointX < X2 && clickPointY > Y1 && clickPointY < Y2;
+        }
+
+        // GetShapeInfo
+        public string GetShapeInfo()
+        {
+            return SELECTED + this.GetType().Name + LEFT_BRACKET + X1 + COMMA + Y1 + COMMA + X2 + COMMA + Y2 + RIGHT_BRACKET;
         }
 
         // CheckPointX
