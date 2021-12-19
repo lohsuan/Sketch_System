@@ -19,6 +19,8 @@ namespace DrawingModel
         ShapeFactory _shapeFactory = new ShapeFactory();
         Shape _hintShape = new Shape();
         Shape _selectedShape = null;
+        Shape _startLinkShape = null;
+        Shape _endLinkShape = null;
         private const string SHAPE = "Shape";
         private const string LINE = "Line";
 
@@ -64,7 +66,23 @@ namespace DrawingModel
                 _hintShape.X1 = _firstPointX;
                 _hintShape.Y1 = _firstPointY;
                 _isPressed = true;
+                if (_hintShape.GetType().Name == LINE)
+                {
+                    CheckLinkLineStartShape(x1, y1);
+                }
+            }
+        }
 
+        // CheckLinkLineStartShape
+        private void CheckLinkLineStartShape(double x1, double y1)
+        {
+            for (int i = _shapes.Count - 1; i >= 0; i--)
+            {
+                if (_shapes[i].IsShapeClick(x1, y1))
+                {
+                    _startLinkShape = _shapes[i];
+                    return;
+                }
             }
         }
 
@@ -82,20 +100,49 @@ namespace DrawingModel
         // PointerReleased
         public void HandlePointerReleased(double x2, double y2)
         {
-
+            if (_isPressed && _hintShape.GetType().Name == LINE)
+            {
+                PrepareLinkLine(x2, y2);
+                _isPressed = false;
+                return;
+            }
             if (_isPressed && (_hintShape.GetType().Name != SHAPE))
             {
-                //_shapes.Add(_hintShape);
                 _commandManager.Execute(new DrawCommand(this, _hintShape));
-
                 NotifyModelChanged();
                 _hintShape = new Shape();
             }
             else if (_isPressed)
-            {
                 CheckIsShapeIsClicked(x2, y2);
-            }
             _isPressed = false;
+        }
+
+        // CheckLineButtonEnabled
+        public bool IsLineButtonEnabled()
+        {
+            return _hintShape.GetType().Name != LINE;
+        }
+
+        // PrepareLinkLine
+        private void PrepareLinkLine(double x2, double y2)
+        {
+            if (_startLinkShape != null)
+            {
+                for (int i = _shapes.Count - 1; i >= 0; i--)
+                {
+                    if (_shapes[i].IsShapeClick(x2, y2))
+                    {
+                        _endLinkShape = _shapes[i];
+                        _hintShape = new Line(_startLinkShape, _endLinkShape);
+                        _commandManager.Execute(new DrawCommand(this, _hintShape));
+                        _hintShape = new Shape();
+                        break;
+                    }
+                }
+            }
+            NotifyModelChanged();
+            _startLinkShape = null;
+            _endLinkShape = null;
         }
 
         // DrawShape
@@ -155,7 +202,15 @@ namespace DrawingModel
         {
             graphics.ClearAll();
             foreach (Shape aShape in _shapes)
-                aShape.Draw(graphics);
+            {
+                if (aShape.GetType().Name == LINE)
+                    aShape.Draw(graphics);
+            }
+            foreach (Shape aShape in _shapes)
+            {
+                if (aShape.GetType().Name != LINE)
+                    aShape.Draw(graphics);
+            }
             if (_isPressed)
                 _hintShape.Draw(graphics);
             if (_selectedShape != null)

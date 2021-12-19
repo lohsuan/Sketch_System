@@ -12,6 +12,7 @@ namespace DrawingModel
         private const string LEFT_BRACKET = "(";
         private const string RIGHT_BRACKET = ")";
         private const string COMMA = ",";
+        private const int TWO = 2;
         protected double _x;
         protected double _y;
         protected double _width;
@@ -39,6 +40,18 @@ namespace DrawingModel
         public string GetShapeInfo()
         {
             return SELECTED + this.GetType().Name + LEFT_BRACKET + (int)X1 + COMMA + (int)Y1 + COMMA + (int)X2 + COMMA + (int)Y2 + RIGHT_BRACKET;
+        }
+
+        // GetCenterPointX
+        public double GetCenterPointX()
+        {
+            return (X1 + X2) / TWO;
+        }
+
+        // GetCenterPointY
+        public double GetCenterPointY()
+        {
+            return (Y1 + Y2) / TWO;
         }
 
         // CheckPointX

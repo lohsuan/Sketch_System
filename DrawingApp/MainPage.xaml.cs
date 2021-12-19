@@ -100,6 +100,8 @@ namespace DrawingApp
             foreach (Button button in _shapesButton)
                 button.IsEnabled = true;
             _model.HandlePointerReleased(e.GetCurrentPoint(_canvas).Position.X, e.GetCurrentPoint(_canvas).Position.Y);
+            _line.IsEnabled = _model.IsLineButtonEnabled();
+            HandleModelChanged();
         }
 
         // HandleCanvasMoved

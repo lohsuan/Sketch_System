@@ -85,27 +85,34 @@ namespace DrawingApp.PresentationModel
         public void DrawBorder(double x1, double y1, double x2, double y2)
         {
 
+            DrawDashedRectangle(x1, y1, x2, y2);
+            DrawRectangleCap(x1, y1);
+            DrawRectangleCap(x2, y1);
+            DrawRectangleCap(x1, y2);
+            DrawRectangleCap(x2, y2);
+        }
+
+        // DrawDashedRectangle
+        private void DrawDashedRectangle(double x1, double y1, double x2, double y2)
+        {
             const int DASH_LENGTH = 4;
             const int DASH_GAP = 1;
             const int PEN_WIDTH = 2;
-
             Windows.UI.Xaml.Shapes.Rectangle rectangle = new Windows.UI.Xaml.Shapes.Rectangle();
             rectangle.Margin = new Thickness(x1, y1, 0, 0);
             rectangle.Width = Math.Abs(x1 - x2);
             rectangle.Height = Math.Abs(y1 - y2);
             rectangle.Stroke = new SolidColorBrush(Colors.Red);
             rectangle.StrokeThickness = PEN_WIDTH;
-            rectangle.StrokeDashArray = new DoubleCollection { DASH_LENGTH, DASH_GAP };
+            rectangle.StrokeDashArray = new DoubleCollection
+            {
+                DASH_LENGTH, DASH_GAP
+            };
             _canvas.Children.Add(rectangle);
-
-            DrawRactangleCap(x1, y1);
-            DrawRactangleCap(x2, y1);
-            DrawRactangleCap(x1, y2);
-            DrawRactangleCap(x2, y2);
         }
 
         // DrawRactangleCap
-        private void DrawRactangleCap(double x1, double y1)
+        private void DrawRectangleCap(double x1, double y1)
         {
             const int POINT_OFFSET = 5;
             const int CIRCLE_RADIUS = 10;

@@ -49,5 +49,17 @@ namespace DrawingModelTests
         {
             _count++;
         }
+
+        // DrawLine
+        public void DrawLine(double x1, double y1, double x2, double y2)
+        {
+            _count++;
+        }
+
+        // DrawBorder
+        public void DrawBorder(double x1, double y1, double x2, double y2)
+        {
+            _count++;
+        }
     }
 }

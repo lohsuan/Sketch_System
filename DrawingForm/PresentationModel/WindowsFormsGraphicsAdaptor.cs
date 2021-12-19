@@ -61,11 +61,11 @@ namespace DrawingForm.PresentationModel
             double height = Math.Abs(y1 - y2);
 
             _graphics.DrawRectangle(pen, (float)startPointX, (float)startPointY, (float)width, (float)height);
-            DrawRactangleCap(x1, y1, x2, y2);
+            DrawRectangleCap(x1, y1, x2, y2);
         }
 
         // DrawEndCap
-        private void DrawRactangleCap(double x1, double y1, double x2, double y2)
+        private void DrawRectangleCap(double x1, double y1, double x2, double y2)
         {
             const int CIRCLE_OFFSET = 4;
             const int CIRCLE_RADIUS = 8;

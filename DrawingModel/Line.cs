@@ -8,14 +8,32 @@ namespace DrawingModel
 {
     class Line : Shape
     {
-        //Shape _shape1;
-        //Shape _shape2;
+        private Shape _startLinkShape = null;
+        private Shape _endLinkShape = null;
+
+        public Line()
+        {
+            _startLinkShape = null;
+            _endLinkShape = null;
+        }
+
+        public Line(Shape startLinkShape, Shape endLinkShape)
+        {
+            _startLinkShape = startLinkShape;
+            _endLinkShape = endLinkShape;
+        }
 
         // Draw
         public override void Draw(IGraphics graphics)
         {
-
-            graphics.DrawLine(X1, Y1, X2, Y2);
+            if (_endLinkShape == null)
+            {
+                graphics.DrawLine(X1, Y1, X2, Y2);
+            }
+            else
+            {
+                graphics.DrawLine(_startLinkShape.GetCenterPointX(), _startLinkShape.GetCenterPointY(), _endLinkShape.GetCenterPointX(), _endLinkShape.GetCenterPointY());
+            }
         }
     }
 }

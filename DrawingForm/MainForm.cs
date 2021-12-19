@@ -43,7 +43,6 @@ namespace DrawingForm
         {
             // ToolStrip for Redo and Undo buttons
             ToolStrip toolStrip = new ToolStrip();
-            //Controls.Add(ts);
             toolStrip.Parent = this;
             _undo = new ToolStripButton("Undo", null, UndoHandler);
             _undo.Enabled = false;
@@ -98,6 +97,7 @@ namespace DrawingForm
             foreach (Button button in _shapesButton)
                 button.Enabled = true;
             _model.HandlePointerReleased(e.X, e.Y);
+            _line.Enabled = _model.IsLineButtonEnabled();
         }
 
         // HandleCanvasMoved

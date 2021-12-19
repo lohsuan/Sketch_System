@@ -119,7 +119,7 @@ namespace DrawingModel.Tests
 
             List<Shape> shapes = (List<Shape>)_modelPrivate.GetFieldOrProperty("_shapes");
             Assert.AreEqual(0, shapes.Count);
-            Assert.AreEqual(1, _event);
+            Assert.AreEqual(2, _event);
         }
 
         // DrawingRectangleTest
