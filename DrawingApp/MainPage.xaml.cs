@@ -22,6 +22,7 @@ namespace DrawingApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private const string EMPTY_STRING = "";
         DrawingModel.Model _model;
         PresentationModel.PresentationModel _presentationModel;
         List<Button> _shapesButton = new List<Button>();
@@ -31,16 +32,35 @@ namespace DrawingApp
             this.InitializeComponent();
             _model = new DrawingModel.Model();
             _presentationModel = new PresentationModel.PresentationModel(_model, _canvas);
+            PrepareModelEventHandler();
+            PrepareComponentEventHandler();
+            _undo.IsEnabled = false;
+            _redo.IsEnabled = false;
+            _shapesButton.Add(_rectangle);
+            _shapesButton.Add(_ellipse);
+            _shapesButton.Add(_line);
+        }
+
+        // PrepareComponentEventHandler
+        private void PrepareComponentEventHandler()
+        {
             _canvas.PointerPressed += HandleCanvasPressed;
             _canvas.PointerReleased += HandleCanvasReleased;
             _canvas.PointerMoved += HandleCanvasMoved;
             _clear.Click += HandleClearButtonClick;
-            _model._modelChanged += HandleModelChanged;
-
             _rectangle.Click += HandleShapeButtonClick;
             _ellipse.Click += HandleShapeButtonClick;
-            _shapesButton.Add(_rectangle);
-            _shapesButton.Add(_ellipse);
+            _line.Click += HandleShapeButtonClick;
+            _undo.Click += UndoHandler;
+            _redo.Click += RedoHandler;
+        }
+
+        // PrepareModelEventHandler
+        private void PrepareModelEventHandler()
+        {
+            _model._modelChanged += HandleModelChanged;
+            _model._shapeSelected += HandleShapeSelected;
+            _model._shapeNotSelected += HandleShapeNotSelected;
         }
 
         /// <summary>
@@ -91,7 +111,35 @@ namespace DrawingApp
         // HandleModelChanged
         public void HandleModelChanged()
         {
+            _redo.IsEnabled = _model.IsRedoEnabled();
+            _undo.IsEnabled = _model.IsUndoEnabled();
             _presentationModel.Draw();
+        }
+
+        // HandleShapeSelected
+        public void HandleShapeSelected()
+        {
+            _shapeInfoTextBlock.Text = _model.GetShapeInfo();
+        }
+
+        // HandleShapeNotSelected
+        public void HandleShapeNotSelected()
+        {
+            _shapeInfoTextBlock.Text = EMPTY_STRING;
+        }
+
+        // UndoHandler
+        void UndoHandler(Object sender, RoutedEventArgs e)
+        {
+            _model.Undo();
+            HandleModelChanged();
+        }
+
+        // RedoHandler
+        void RedoHandler(Object sender, RoutedEventArgs e)
+        {
+            _model.Redo();
+            HandleModelChanged();
         }
     }
 }

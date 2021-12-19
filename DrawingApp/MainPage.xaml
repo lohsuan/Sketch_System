@@ -9,10 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="1366" Height="768">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="1366" Height="768">
-        <Button x:Name="_rectangle" Content="Rectangle" Margin="200,40,100,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="50"/>
-        <Button x:Name="_ellipse" Content="Ellipse" Margin="100,40,100,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="150" Height="50"/>
-        <Button x:Name="_clear" Content="Clear" Margin="100,40,200,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Height="50"/>
+        <Button x:Name="_undo" Content="Undo" Margin="80,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Height="50"/>
+        <Button x:Name="_redo" Content="Redo" Margin="240,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Height="50"/>
+        <Button x:Name="_rectangle" Content="Rectangle" Margin="430,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="50"/>
+        <Button x:Name="_line" Content="Line" Margin="650,40,100,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="50"/>
+        <Button x:Name="_ellipse" Content="Ellipse" Margin="650,40,100,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="150" Height="50"/>
+        <Button x:Name="_clear" Content="Clear" Margin="0,40,100,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Height="50"/>
         <Canvas x:Name="_canvas" Margin="50,100,50,50" Background="#FFFFFFA0"/>
+        <TextBlock Text="" x:Name="_shapeInfoTextBlock" Margin="1000,680,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" TextWrapping="Wrap"/>
 
     </Grid>
 </Page>

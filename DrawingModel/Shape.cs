@@ -38,7 +38,7 @@ namespace DrawingModel
         // GetShapeInfo
         public string GetShapeInfo()
         {
-            return SELECTED + this.GetType().Name + LEFT_BRACKET + X1 + COMMA + Y1 + COMMA + X2 + COMMA + Y2 + RIGHT_BRACKET;
+            return SELECTED + this.GetType().Name + LEFT_BRACKET + (int)X1 + COMMA + (int)Y1 + COMMA + (int)X2 + COMMA + (int)Y2 + RIGHT_BRACKET;
         }
 
         // CheckPointX
