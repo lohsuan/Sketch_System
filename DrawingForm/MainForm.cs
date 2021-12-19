@@ -17,21 +17,13 @@ namespace DrawingForm
         PresentationModel.PresentationModel _presentationModel;
         Panel _canvas = new DoubleBufferedPanel();
         List<Button> _shapesButton = new List<Button>();
+        ToolStripButton _undo;
+        ToolStripButton _redo;
 
         public MainForm()
         {
             InitializeComponent();
-            // prepare canvas
-            _canvas.IsAccessible = true;
-            _canvas.AccessibleName = CANVAS;
-            _canvas.Dock = DockStyle.Fill;
-            _canvas.BackColor = Color.LightYellow;
-            _canvas.MouseDown += HandleCanvasPressed;
-            _canvas.MouseUp += HandleCanvasReleased;
-            _canvas.MouseMove += HandleCanvasMoved;
-            _canvas.Paint += HandleCanvasPaint;
-
-            Controls.Add(_canvas);
+            PrepareCanvas();
 
             // prepare presentation model and model
             _model = new DrawingModel.Model();
@@ -43,6 +35,37 @@ namespace DrawingForm
             _shapesButton.Add(_rectangle);
             _shapesButton.Add(_ellipse);
             _shapesButton.Add(_line);
+            PrepareUndoRedoToolStrip();
+        }
+
+        // PrepareUndoRedoToolStrip
+        private void PrepareUndoRedoToolStrip()
+        {
+            // ToolStrip for Redo and Undo buttons
+            ToolStrip toolStrip = new ToolStrip();
+            //Controls.Add(ts);
+            toolStrip.Parent = this;
+            _undo = new ToolStripButton("Undo", null, UndoHandler);
+            _undo.Enabled = false;
+            toolStrip.Items.Add(_undo);
+            _redo = new ToolStripButton("Redo", null, RedoHandler);
+            _redo.Enabled = false;
+            toolStrip.Items.Add(_redo);
+        }
+
+        // PrepareCanvas
+        private void PrepareCanvas()
+        {
+            _canvas.IsAccessible = true;
+            _canvas.AccessibleName = CANVAS;
+            _canvas.Dock = DockStyle.Fill;
+            _canvas.BackColor = Color.LightYellow;
+            _canvas.MouseDown += HandleCanvasPressed;
+            _canvas.MouseUp += HandleCanvasReleased;
+            _canvas.MouseMove += HandleCanvasMoved;
+            _canvas.Paint += HandleCanvasPaint;
+
+            Controls.Add(_canvas);
         }
 
         //HandleShapeButtonClick
@@ -92,6 +115,8 @@ namespace DrawingForm
         // HandleModelChanged
         public void HandleModelChanged()
         {
+            _redo.Enabled = _model.IsRedoEnabled();
+            _undo.Enabled = _model.IsUndoEnabled();
             Invalidate(true);
         }
 
@@ -105,6 +130,20 @@ namespace DrawingForm
         public void HandleShapeNotSelected()
         {
             _shapeInfoLabel.Text = null;
+        }
+
+        // UndoHandler
+        void UndoHandler(Object sender, EventArgs e)
+        {
+            _model.Undo();
+            HandleModelChanged();
+        }
+
+        // RedoHandler
+        void RedoHandler(Object sender, EventArgs e)
+        {
+            _model.Redo();
+            HandleModelChanged();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace DrawingModel
         public event ModelChangedEventHandler _shapeNotSelected;
         public delegate void ShapeNotSelectedEventHandler();
 
+        CommandManager _commandManager = new CommandManager();
         double _firstPointX;
         double _firstPointY;
         bool _isPressed = false;
@@ -63,7 +64,7 @@ namespace DrawingModel
                 _hintShape.X1 = _firstPointX;
                 _hintShape.Y1 = _firstPointY;
                 _isPressed = true;
-                
+
             }
         }
 
@@ -81,17 +82,60 @@ namespace DrawingModel
         // PointerReleased
         public void HandlePointerReleased(double x2, double y2)
         {
-            if (_isPressed)
-            {
-                CheckIsShapeIsClicked(x2, y2);
-            }
+
             if (_isPressed && (_hintShape.GetType().Name != SHAPE))
             {
-                _shapes.Add(_hintShape);
+                //_shapes.Add(_hintShape);
+                _commandManager.Execute(new DrawCommand(this, _hintShape));
+
                 NotifyModelChanged();
                 _hintShape = new Shape();
             }
+            else if (_isPressed)
+            {
+                CheckIsShapeIsClicked(x2, y2);
+            }
             _isPressed = false;
+        }
+
+        // DrawShape
+        public void DrawShape(Shape shape)
+        {
+            _shapes.Add(shape);
+        }
+
+        // DeleteLastShape
+        public void DeleteLastShape()
+        {
+            _shapes.RemoveAt(_shapes.Count - 1);
+        }
+
+        // Undo
+        public void Undo()
+        {
+            _commandManager.Undo();
+            _selectedShape = null;
+            NotifyShapeNotSelected();
+        }
+
+        // Redo
+        public void Redo()
+        {
+            _commandManager.Redo();
+            _selectedShape = null;
+            NotifyShapeNotSelected();
+        }
+
+        // IsRedoEnabled
+        public bool IsRedoEnabled()
+        {
+            return _commandManager.IsRedoEnabled();
+        }
+
+        // IsUndoEnabled
+        public bool IsUndoEnabled()
+        {
+            return _commandManager.IsUndoEnabled();
         }
 
         // Clear
@@ -99,6 +143,7 @@ namespace DrawingModel
         {
             _isPressed = false;
             _shapes.Clear();
+            _commandManager.ClearAll();
             _hintShape = new Shape();
             _selectedShape = null;
             NotifyModelChanged();

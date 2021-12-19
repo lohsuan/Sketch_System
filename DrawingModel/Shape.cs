@@ -32,7 +32,7 @@ namespace DrawingModel
         // IsShapeClick
         public bool IsShapeClick(double clickedPointX, double clickPointY)
         {
-            return clickedPointX > X1 && clickedPointX < X2 && clickPointY > Y1 && clickPointY < Y2;
+            return ((clickedPointX - X1) * (clickedPointX - X2) <= 0) && ((clickPointY - Y1) * (clickPointY - Y2) <= 0);
         }
 
         // GetShapeInfo

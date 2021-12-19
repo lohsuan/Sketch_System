@@ -38,7 +38,7 @@ namespace DrawingForm
             // 
             // _clear
             // 
-            this._clear.Location = new System.Drawing.Point(650, 10);
+            this._clear.Location = new System.Drawing.Point(680, 35);
             this._clear.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this._clear.Name = "_clear";
             this._clear.Size = new System.Drawing.Size(130, 30);
@@ -49,7 +49,7 @@ namespace DrawingForm
             // 
             // _ellipse
             // 
-            this._ellipse.Location = new System.Drawing.Point(450, 10);
+            this._ellipse.Location = new System.Drawing.Point(480, 35);
             this._ellipse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this._ellipse.Name = "_ellipse";
             this._ellipse.Size = new System.Drawing.Size(130, 30);
@@ -60,7 +60,7 @@ namespace DrawingForm
             // 
             // _line
             // 
-            this._line.Location = new System.Drawing.Point(250, 10);
+            this._line.Location = new System.Drawing.Point(280, 35);
             this._line.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this._line.Name = "_line";
             this._line.Size = new System.Drawing.Size(130, 30);
@@ -71,7 +71,7 @@ namespace DrawingForm
             // 
             // _rectangle
             // 
-            this._rectangle.Location = new System.Drawing.Point(50, 10);
+            this._rectangle.Location = new System.Drawing.Point(80, 35);
             this._rectangle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this._rectangle.Name = "_rectangle";
             this._rectangle.Size = new System.Drawing.Size(130, 30);
