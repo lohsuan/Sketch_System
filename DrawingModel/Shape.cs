@@ -11,7 +11,7 @@ namespace DrawingModel
         private const string SELECTED = "Selected : ";
         private const string LEFT_BRACKET = "(";
         private const string RIGHT_BRACKET = ")";
-        private const string COMMA = ",";
+        private const string COMMA_SPACE = ", ";
         private const int TWO = 2;
         protected double _x;
         protected double _y;
@@ -39,7 +39,7 @@ namespace DrawingModel
         // GetShapeInfo
         public string GetShapeInfo()
         {
-            return SELECTED + this.GetType().Name + LEFT_BRACKET + (int)X1 + COMMA + (int)Y1 + COMMA + (int)X2 + COMMA + (int)Y2 + RIGHT_BRACKET;
+            return SELECTED + this.GetType().Name + LEFT_BRACKET + (int)X1 + COMMA_SPACE + (int)Y1 + COMMA_SPACE + (int)X2 + COMMA_SPACE + (int)Y2 + RIGHT_BRACKET;
         }
 
         // GetCenterPointX
