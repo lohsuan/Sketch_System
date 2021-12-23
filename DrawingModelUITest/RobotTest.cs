@@ -305,8 +305,13 @@ namespace DrawingModelUITest
         public static void AssertWindowsContainLabelText(string name)
         {
             WinText edit = (WinText)RobotTest.FindWinControl(typeof(WinText), name, _root);
-            //Assert.AreEqual(edit.DisplayText, assertValue);
-            Assert.IsNotNull(edit);
+        }
+
+        // test
+        public static void AssertText(string name, string assertValue)
+        {
+            WinText edit = (WinText)RobotTest.FindWinControl(typeof(WinText), name, _root);
+            Assert.AreEqual(edit.DisplayText, assertValue);
         }
 
         // test

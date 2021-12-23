@@ -22,48 +22,37 @@ namespace DrawingModelUITest
             RobotTest.Initialize(FILE_PATH, APP_TITLE);
         }
 
-        // MainForm
-
-        // DrawAndSelectRectangleTest
-        [TestMethod]
-        public void DrawAndSelectRectangleTest()
-        {
-            RobotTest.ClickButton("Rectangle");
-            RobotTest.AssertButtonEnable("Rectangle", false);
-            RobotTest.MouseDraw(375, 80, 525, 140);
-            RobotTest.AssertButtonEnable("Rectangle", true);
-            RobotTest.MouseDraw(400, 100, 401, 101);
-            RobotTest.AssertWindowsContainLabelText("Selected : Rectangle(375, 80, 525, 140)");
-        }
-
-        // DrawAndSelectEllipseTest
-        [TestMethod]
-        public void DrawAndSelectEllipseTest()
-        {
-            RobotTest.ClickButton("Ellipse");
-            RobotTest.AssertButtonEnable("Ellipse", false);
-            RobotTest.MouseDraw(375, 80, 525, 140);
-            RobotTest.AssertButtonEnable("Ellipse", true);
-            RobotTest.AssertWindowsContainLabelText("Selected : Ellipse(375, 80, 525, 140)");
-        }
-
         // DrawLineTest
         [TestMethod]
-        public void DrawLineTest()
+        public void DrawEachShapeAndSelectTest()
         {
-            RobotTest.ClickButton("Ellipse");
-            RobotTest.MouseDraw(100, 100, 325, 340);
+            // Rectangle
             RobotTest.ClickButton("Rectangle");
-            RobotTest.MouseDraw(500, 400, 750, 600);
+            RobotTest.AssertButtonEnable("Rectangle", false);
+            RobotTest.MouseDraw(100, 100, 300, 300);
+            RobotTest.AssertButtonEnable("Rectangle", true);
+            RobotTest.MouseDraw(200, 200, 201, 201);
+            RobotTest.AssertWindowsContainLabelText("Selected : Rectangle(100, 100, 300, 300)");
             
+            // Ellipse
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.AssertButtonEnable("Ellipse", false);
+            RobotTest.MouseDraw(400, 130, 550, 250);
+            RobotTest.AssertButtonEnable("Ellipse", true);
+            RobotTest.MouseDraw(500, 150, 500, 150);
+            RobotTest.AssertWindowsContainLabelText("Selected : Ellipse(400, 130, 550, 250)");
+            
+            // Line
             RobotTest.ClickButton("Line");
             RobotTest.AssertButtonEnable("Line", false);
             
-            RobotTest.MouseDraw(200, 200, 800, 500);
+            RobotTest.MouseDraw(130, 130, 200, 200);
             RobotTest.AssertButtonEnable("Line", false);
 
-            RobotTest.MouseDraw(200, 200, 600, 500);
+            RobotTest.MouseDraw(200, 200, 500, 500);
             RobotTest.AssertButtonEnable("Line", true);
+         
+            RobotTest.ClickButton("Clear");
         }
 
         // ClearTest
@@ -79,73 +68,38 @@ namespace DrawingModelUITest
         }
 
         //// DrawingSnowManTest
-        //[TestMethod]
-        //public void DrawingSnowManTest()
-        //{
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(320, 240, 580, 500);
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(380, 130, 520, 270);
+        [TestMethod]
+        public void DrawingSnowManTest()
+        {
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.MouseDraw(320, 240, 580, 500);
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.MouseDraw(380, 130, 520, 270);
 
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(410, 175, 430, 195);
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(470, 175, 490, 195);
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.MouseDraw(410, 175, 430, 195);
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.MouseDraw(470, 175, 490, 195);
 
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(375, 80, 525, 140);
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(350, 140, 550, 160);
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(420, 215, 480, 245);
+            RobotTest.ClickButton("Rectangle");
+            RobotTest.MouseDraw(375, 80, 525, 140);
+            RobotTest.ClickButton("Rectangle");
+            RobotTest.MouseDraw(350, 140, 550, 160);
+            RobotTest.ClickButton("Rectangle");
+            RobotTest.MouseDraw(420, 215, 480, 245);
 
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(430, 300, 470, 340);
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(430, 360, 470, 400);
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.MouseDraw(430, 300, 470, 340);
+            RobotTest.ClickButton("Ellipse");
+            RobotTest.MouseDraw(430, 360, 470, 400);
 
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(310, 200, 320, 360);
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(580, 200, 590, 360);
+            RobotTest.ClickButton("Rectangle");
+            RobotTest.MouseDraw(310, 200, 320, 360);
+            RobotTest.ClickButton("Rectangle");
+            RobotTest.MouseDraw(580, 200, 590, 360);
 
-        //    RobotTest.ClickButton("Clear");
-        //}
-
-
-        //// DrawingSnowManTest
-        //[TestMethod]
-        //public void DrawingIntegrationTest()
-        //{
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(320, 240, 580, 500);
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(380, 130, 520, 270);
-
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(410, 175, 430, 195);
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(470, 175, 490, 195);
-
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(375, 80, 525, 140);
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(350, 140, 550, 160);
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(420, 215, 480, 245);
-
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(430, 300, 470, 340);
-        //    RobotTest.ClickButton("Ellipse");
-        //    RobotTest.MouseDraw(430, 360, 470, 400);
-
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(310, 200, 320, 360);
-        //    RobotTest.ClickButton("Rectangle");
-        //    RobotTest.MouseDraw(580, 200, 590, 360);
-
-        //    RobotTest.ClickButton("Clear");
-        //}
+            RobotTest.ClickButton("Clear");
+        }
 
         // Cleanup
         [TestCleanup()]
