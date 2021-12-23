@@ -10,7 +10,7 @@ using DrawingModelTests;
 namespace DrawingModel.Tests
 {
     /// <summary>
-    ///  Number of test method in ModelTest: 14
+    ///  Number of test method in ModelTest: 26
     /// </summary>
 
     [TestClass()]

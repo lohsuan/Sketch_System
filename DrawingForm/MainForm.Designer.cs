@@ -82,6 +82,8 @@ namespace DrawingForm
             // 
             // _shapeInfoLabel
             // 
+            this._shapeInfoLabel.IsAccessible = true;
+            this._shapeInfoLabel.AccessibleName = "_shapeInfoLabel";
             this._shapeInfoLabel.AutoSize = true;
             this._shapeInfoLabel.Location = new System.Drawing.Point(631, 557);
             this._shapeInfoLabel.Name = "_shapeInfoLabel";
