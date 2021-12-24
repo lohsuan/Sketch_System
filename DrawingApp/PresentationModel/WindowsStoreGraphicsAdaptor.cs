@@ -99,7 +99,9 @@ namespace DrawingApp.PresentationModel
             const int DASH_GAP = 1;
             const int PEN_WIDTH = 2;
             Windows.UI.Xaml.Shapes.Rectangle rectangle = new Windows.UI.Xaml.Shapes.Rectangle();
-            rectangle.Margin = new Thickness(x1, y1, 0, 0);
+            double startPointX = x1 < x2 ? x1 : x2;
+            double startPointY = y1 < y2 ? y1 : y2;
+            rectangle.Margin = new Thickness(startPointX, startPointY, 0, 0);
             rectangle.Width = Math.Abs(x1 - x2);
             rectangle.Height = Math.Abs(y1 - y2);
             rectangle.Stroke = new SolidColorBrush(Colors.Red);

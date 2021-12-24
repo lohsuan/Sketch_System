@@ -55,7 +55,7 @@ namespace DrawingModelUITest
             RobotTest.ClickButton("Clear");
         }
 
-        // ClearTest
+        // RedoUndoClearTest
         [TestMethod]
         public void RedoUndoClearTest()
         {
