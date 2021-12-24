@@ -59,14 +59,28 @@ namespace DrawingModelUITest
         [TestMethod]
         public void RedoUndoClearTest()
         {
+            RobotTest.AssertButtonEnable("Undo", false);
+            RobotTest.AssertButtonEnable("Redo", false);
+
             RobotTest.ClickButton("Ellipse");
             RobotTest.AssertButtonEnable("Ellipse", false);
             RobotTest.MouseDraw(175, 80, 325, 140);
             RobotTest.AssertButtonEnable("Ellipse", true);
-            RobotTest.ClickButton("Redo");
+
+            RobotTest.AssertButtonEnable("Undo", true);
+            RobotTest.AssertButtonEnable("Redo", false);
+
             RobotTest.ClickButton("Undo");
+            RobotTest.AssertButtonEnable("Undo", false);
+            RobotTest.AssertButtonEnable("Redo", true);
+
+            RobotTest.ClickButton("Redo");
+            RobotTest.AssertButtonEnable("Undo", true);
+            RobotTest.AssertButtonEnable("Redo", false);
 
             RobotTest.ClickButton("Clear");
+            RobotTest.AssertButtonEnable("Undo", false);
+            RobotTest.AssertButtonEnable("Redo", false);
         }
 
         // DrawingRobotAcceptanceTest
