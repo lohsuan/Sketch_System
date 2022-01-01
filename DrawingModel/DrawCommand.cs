@@ -19,7 +19,7 @@ namespace DrawingModel
         // Execute
         public void Execute()
         {
-            _model.DrawShape(_shape);
+            _model.AddShape(_shape);
         }
 
         // ReverseExecute

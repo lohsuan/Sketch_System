@@ -24,6 +24,18 @@ namespace DrawingModel
 
         }
 
+        // MakePosition
+        public Position GetOldPosition(double offsetX, double offsetY)
+        {
+            return new Position(X1 - offsetX, Y1 - offsetY, X2 - offsetX, Y2 - offsetY);
+        }
+
+        // MakePosition
+        public Position GetPosition()
+        {
+            return new Position(X1, Y1, X2, Y2);
+        }
+
         //DrawBorder
         public void DrawBorder(IGraphics graphics)
         {
@@ -34,6 +46,24 @@ namespace DrawingModel
         public bool IsShapeClick(double clickedPointX, double clickPointY)
         {
             return ((clickedPointX - X1) * (clickedPointX - X2) <= 0) && ((clickPointY - Y1) * (clickPointY - Y2) <= 0);
+        }
+
+        // MovingShape
+        public void MovingShape(double offsetX, double offsetY)
+        {
+            X1 += offsetX;
+            X2 += offsetX;
+            Y1 += offsetY;
+            Y2 += offsetY;
+        }
+
+        // MoveShape
+        public void MoveShape(double x1, double y1, double x2, double y2)
+        {
+            X1 = x1;
+            Y1 = y1;
+            X2 = x2;
+            Y2 = y2;
         }
 
         // GetShapeInfo

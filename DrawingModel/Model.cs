@@ -12,42 +12,50 @@ namespace DrawingModel
         public delegate void ShapeNotSelectedEventHandler();
 
         CommandManager _commandManager = new CommandManager();
-        double _firstPointX;
-        double _firstPointY;
         bool _isPressed = false;
         List<Shape> _shapes = new List<Shape>();
-        ShapeFactory _shapeFactory = new ShapeFactory();
         Shape _hintShape = new Shape();
         Shape _selectedShape = null;
-        Shape _startLinkShape = null;
-        Shape _endLinkShape = null;
+        //Shape _startLinkShape = null;
+        //Shape _endLinkShape = null;
+        private IState _mouseState;
         private const string SHAPE = "Shape";
         private const string LINE = "Line";
+
+        public Model()
+        {
+            SetPointerState();
+        }
+
+        // SetPointerState
+        public void SetPointerState()
+        {
+            _mouseState = new PointerState(this);
+        }
+
+        // SetDrawingState
+        public void SetDrawingState(string shapeType)
+        {
+            _mouseState = new DrawingState(this, shapeType);
+        }
+
+        // SetDrawingLineState
+        public void SetDrawingLineState(string shapeType)
+        {
+            _mouseState = new DrawingLineState(this, shapeType);
+        }
 
         // ChangeShape
         public void ChangeShape(string shapeType)
         {
-            _hintShape = _shapeFactory.CreateShape(shapeType);
-            _selectedShape = null;
-            NotifyShapeNotSelected();
-        }
+            if (shapeType == LINE)
+                SetDrawingLineState(shapeType);
+            else
+                SetDrawingState(shapeType);
 
-        // CheckIsShapeIsClicked
-        public void CheckIsShapeIsClicked(double clickedPointX, double clickedPointY)
-        {
-            for (int i = _shapes.Count - 1; i >= 0; i--)
-            {
-                if (_shapes[i].IsShapeClick(clickedPointX, clickedPointY))
-                {
-                    _selectedShape = _shapes[i];
-                    NotifyModelChanged();
-                    NotifyShapeSelected();
-                    return;
-                }
-            }
             _selectedShape = null;
-            NotifyModelChanged();
             NotifyShapeNotSelected();
+            NotifyModelChanged();
         }
 
         // GetShapeInfo
@@ -61,29 +69,27 @@ namespace DrawingModel
         {
             if (x1 > 0 && y1 > 0)
             {
-                _firstPointX = x1;
-                _firstPointY = y1;
-                _hintShape.X1 = _firstPointX;
-                _hintShape.Y1 = _firstPointY;
+                _mouseState.PressPointer(x1, y1);
                 _isPressed = true;
-                if (_hintShape.GetType().Name == LINE)
-                {
-                    CheckLinkLineStartShape(x1, y1);
-                }
+                //if (_hintShape.GetType().Name == LINE)
+                //{
+                //    CheckLinkLineStartShape(x1, y1);
+                //}
             }
         }
 
         // CheckLinkLineStartShape
-        private void CheckLinkLineStartShape(double x1, double y1)
+        public Shape CheckLinkLineStartShape(double x1, double y1)
         {
             for (int i = _shapes.Count - 1; i >= 0; i--)
             {
                 if (_shapes[i].IsShapeClick(x1, y1))
                 {
-                    _startLinkShape = _shapes[i];
-                    return;
+                    //_startLinkShape = _shapes[i];
+                    return _shapes[i];
                 }
             }
+            return null;
         }
 
         // PointerMoved
@@ -91,8 +97,7 @@ namespace DrawingModel
         {
             if (_isPressed)
             {
-                _hintShape.X2 = x2;
-                _hintShape.Y2 = y2;
+                _mouseState.MovePointer(x2, y2);
                 NotifyModelChanged();
             }
         }
@@ -100,21 +105,16 @@ namespace DrawingModel
         // PointerReleased
         public void HandlePointerReleased(double x2, double y2)
         {
-            if (_isPressed && _hintShape.GetType().Name == LINE)
-            {
-                PrepareLinkLine(x2, y2);
-                _isPressed = false;
-                return;
-            }
-            if (_isPressed && (_hintShape.GetType().Name != SHAPE))
-            {
-                _commandManager.Execute(new DrawCommand(this, _hintShape));
-                NotifyModelChanged();
-                _hintShape = new Shape();
-            }
-            else if (_isPressed)
-                CheckIsShapeIsClicked(x2, y2);
+            if (_isPressed)
+                _mouseState.ReleasePointer(x2, y2);
+            NotifyModelChanged();
             _isPressed = false;
+        }
+
+        // WriteBackHintShape
+        public void SetHintShape(Shape hintShape)
+        {
+            _hintShape = hintShape;
         }
 
         // CheckLineButtonEnabled
@@ -124,29 +124,64 @@ namespace DrawingModel
         }
 
         // PrepareLinkLine
-        private void PrepareLinkLine(double x2, double y2)
+        public Shape PrepareLinkLine(double x2, double y2)
         {
-            if (_startLinkShape != null)
+            for (int i = _shapes.Count - 1; i >= 0; i--)
             {
-                for (int i = _shapes.Count - 1; i >= 0; i--)
+                if (_shapes[i].IsShapeClick(x2, y2))
+                    return _shapes[i];
+            }
+            return null;
+        }
+
+        // FinishDraw
+        public void FinishDraw(Shape hintShape)
+        {
+            _commandManager.Execute(new DrawCommand(this, hintShape));
+            _hintShape = new Shape();
+            SetPointerState();
+        }
+
+        // MovingShape
+        public void MovingShape(double offsetX, double offsetY)
+        {
+            _selectedShape.MovingShape(offsetX, offsetY);
+            NotifyModelChanged();
+            NotifyShapeSelected();
+        }
+
+        // FinishDraw
+        public void MoveShape(double offsetX, double offsetY)
+        {
+            Position oldPosition = _selectedShape.GetOldPosition(offsetX, offsetY);
+            Position newPosition = _selectedShape.GetPosition();
+            _commandManager.Execute(new MoveCommand(_selectedShape, oldPosition, newPosition));
+            NotifyModelChanged();
+            _selectedShape = null;
+            NotifyShapeNotSelected();
+        }
+
+        // CheckIsShapeIsClicked
+        public bool CheckIsShapeIsClicked(double clickedPointX, double clickedPointY)
+        {
+            for (int i = _shapes.Count - 1; i >= 0; i--)
+            {
+                if (_shapes[i].IsShapeClick(clickedPointX, clickedPointY))
                 {
-                    if (_shapes[i].IsShapeClick(x2, y2))
-                    {
-                        _endLinkShape = _shapes[i];
-                        _hintShape = new Line(_startLinkShape, _endLinkShape);
-                        _commandManager.Execute(new DrawCommand(this, _hintShape));
-                        _hintShape = new Shape();
-                        break;
-                    }
+                    _selectedShape = _shapes[i];
+                    NotifyModelChanged();
+                    NotifyShapeSelected();
+                    return true;
                 }
             }
+            _selectedShape = null;
             NotifyModelChanged();
-            _startLinkShape = null;
-            _endLinkShape = null;
+            NotifyShapeNotSelected();
+            return false;
         }
 
         // DrawShape
-        public void DrawShape(Shape shape)
+        public void AddShape(Shape shape)
         {
             _shapes.Add(shape);
         }
@@ -163,6 +198,7 @@ namespace DrawingModel
             _commandManager.Undo();
             _selectedShape = null;
             NotifyShapeNotSelected();
+            NotifyModelChanged();
         }
 
         // Redo
@@ -171,6 +207,7 @@ namespace DrawingModel
             _commandManager.Redo();
             _selectedShape = null;
             NotifyShapeNotSelected();
+            NotifyModelChanged();
         }
 
         // IsRedoEnabled
@@ -242,6 +279,12 @@ namespace DrawingModel
         public Shape GetHintShape()
         {
             return _hintShape;
+        }
+
+        // IsSelected
+        public bool IsSelected()
+        {
+            return _selectedShape != null;
         }
     }
 }
