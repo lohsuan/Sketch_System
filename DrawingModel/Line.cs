@@ -10,6 +10,7 @@ namespace DrawingModel
     {
         private Shape _startLinkShape = null;
         private Shape _endLinkShape = null;
+        private const string SPACE = " ";
 
         public Line()
         {
@@ -21,6 +22,12 @@ namespace DrawingModel
         {
             _startLinkShape = startLinkShape;
             _endLinkShape = endLinkShape;
+        }
+
+        // GetShapeOutputFormat
+        public override string GetShapeOutputFormat()
+        {
+            return this.GetType().Name + SPACE + (int)X1 + SPACE + (int)Y1 + SPACE + (int)X2 + SPACE + (int)Y2 + SPACE + _startLinkShape.OrderIndex + SPACE + _endLinkShape.OrderIndex;
         }
 
         // Draw

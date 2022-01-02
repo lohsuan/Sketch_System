@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using GoogleDriveUploader.GoogleDrive;
+
 namespace DrawingModel
 {
     public class Model
@@ -16,14 +19,19 @@ namespace DrawingModel
         List<Shape> _shapes = new List<Shape>();
         Shape _hintShape = new Shape();
         Shape _selectedShape = null;
-        //Shape _startLinkShape = null;
-        //Shape _endLinkShape = null;
         private IState _mouseState;
-        private const string SHAPE = "Shape";
         private const string LINE = "Line";
+        ShapeTool _shapeTool = new ShapeTool();
+        private const string UPLOAD_FILE_NAME = "shapes.txt";
+        private const string DOWNLOAD_PATH = "./";
+        GoogleDriveService _service;
 
         public Model()
         {
+            const string APPLICATION_NAME = "DrawAnywhere";
+            const string CLIENT_SECRET_FILE_NAME = "clientSecret.json";
+            _service = new GoogleDriveService(APPLICATION_NAME, CLIENT_SECRET_FILE_NAME);
+
             SetPointerState();
         }
 
@@ -52,7 +60,6 @@ namespace DrawingModel
                 SetDrawingLineState(shapeType);
             else
                 SetDrawingState(shapeType);
-
             _selectedShape = null;
             NotifyShapeNotSelected();
             NotifyModelChanged();
@@ -71,10 +78,6 @@ namespace DrawingModel
             {
                 _mouseState.PressPointer(x1, y1);
                 _isPressed = true;
-                //if (_hintShape.GetType().Name == LINE)
-                //{
-                //    CheckLinkLineStartShape(x1, y1);
-                //}
             }
         }
 
@@ -84,10 +87,7 @@ namespace DrawingModel
             for (int i = _shapes.Count - 1; i >= 0; i--)
             {
                 if (_shapes[i].IsShapeClick(x1, y1))
-                {
-                    //_startLinkShape = _shapes[i];
                     return _shapes[i];
-                }
             }
             return null;
         }
@@ -285,6 +285,34 @@ namespace DrawingModel
         public bool IsSelected()
         {
             return _selectedShape != null;
+        }
+
+        // Save
+        public void Save()
+        {
+            _shapeTool.SaveShapesToFile(_shapes);
+            const string CONTENT_TYPE = "text/txt";
+            _service.UploadFile(UPLOAD_FILE_NAME, CONTENT_TYPE);
+        }
+
+        // Load
+        public void Load()
+        {
+            Google.Apis.Drive.v2.Data.File selectedFile = SelectFileFromGoogleDrive();
+            _service.DownloadFile(selectedFile, DOWNLOAD_PATH);
+            _shapes.Clear();
+            _commandManager.ClearAll();
+
+            _shapeTool.TurnFileToShapes(_shapes);
+            NotifyModelChanged();
+        }
+
+        // SelectFileFromGoogleDrive
+        private Google.Apis.Drive.v2.Data.File SelectFileFromGoogleDrive()
+        {
+            List<Google.Apis.Drive.v2.Data.File> rootFolderFiles = _service.ListRootFileAndFolder();
+            Google.Apis.Drive.v2.Data.File selectedFile = rootFolderFiles.Find(x => x.Title.Contains(UPLOAD_FILE_NAME));
+            return selectedFile;
         }
     }
 }

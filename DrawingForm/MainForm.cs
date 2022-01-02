@@ -145,5 +145,27 @@ namespace DrawingForm
             _model.Redo();
             HandleModelChanged();
         }
+
+        // ClickSaveButton
+        private void ClickSaveButton(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("確定要儲存嗎?", "儲存", MessageBoxButtons.OKCancel);
+
+            if (result == DialogResult.OK)
+            {
+                _model.Save();
+            }
+        }
+
+        // ClickLoadButton
+        private void ClickLoadButton(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("是否要重新載入?", "載入", MessageBoxButtons.OKCancel);
+
+            if (result == DialogResult.OK)
+            {
+                _model.Load();
+            }
+        }
     }
 }

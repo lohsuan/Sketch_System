@@ -12,6 +12,7 @@ namespace DrawingModel
         private const string LEFT_BRACKET = "(";
         private const string RIGHT_BRACKET = ")";
         private const string COMMA_SPACE = ", ";
+        private const string SPACE = " ";
         private const int TWO = 2;
         protected double _x;
         protected double _y;
@@ -70,6 +71,12 @@ namespace DrawingModel
         public string GetShapeInfo()
         {
             return SELECTED + this.GetType().Name + LEFT_BRACKET + (int)X1 + COMMA_SPACE + (int)Y1 + COMMA_SPACE + (int)X2 + COMMA_SPACE + (int)Y2 + RIGHT_BRACKET;
+        }
+
+        // GetShapeOutputFormat
+        public virtual string GetShapeOutputFormat()
+        {
+            return this.GetType().Name + SPACE + (int)X1 + SPACE + (int)Y1 + SPACE + (int)X2 + SPACE + (int)Y2;
         }
 
         // GetCenterPointX
@@ -132,6 +139,20 @@ namespace DrawingModel
         public double Y2
         {
             get; set;
+        }
+
+        public int OrderIndex
+        {
+            get; set;
+        }
+
+        // setPosition
+        public void SetPosition(int x1, int y1, int x2, int y2)
+        {
+            X1 = x1;
+            Y1 = y1;
+            X2 = x2;
+            Y2 = y2;
         }
     }
 }
