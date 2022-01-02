@@ -24,6 +24,10 @@ namespace DrawingApp
     public sealed partial class MainPage : Page
     {
         private const string EMPTY_STRING = "";
+        private const string SAVE_CONFIRM = "確定要儲存嗎?";
+        private const string CONFIRM = "確定";
+        private const string CANCEL = "取消";
+        private const string LOAD_CONFIRM = "確定要重新載入?";
         DrawingModel.Model _model;
         PresentationModel.PresentationModel _presentationModel;
         List<Button> _shapesButton = new List<Button>();
@@ -150,12 +154,12 @@ namespace DrawingApp
         // Save
         async void Save(Object sender, RoutedEventArgs e)
         {
-            ContentDialog saveDialog = new ContentDialog
-            {
-                Title = "確定要儲存嗎?",
-                PrimaryButtonText = "確定",
-                CloseButtonText = "取消"
-            };
+            ContentDialog saveDialog = new ContentDialog();
+            
+            saveDialog.Title = SAVE_CONFIRM;
+            saveDialog.PrimaryButtonText = CONFIRM;
+            saveDialog.CloseButtonText = CANCEL;
+
             ContentDialogResult result = await saveDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
@@ -171,13 +175,13 @@ namespace DrawingApp
         // Load
         async void Load(Object sender, RoutedEventArgs e)
         {
-            ContentDialog saveDialog = new ContentDialog
-            {
-                Title = "確定要重新載入?",
-                PrimaryButtonText = "確定",
-                CloseButtonText = "取消"
-            };
-            ContentDialogResult result = await saveDialog.ShowAsync();
+            ContentDialog loadDialog = new ContentDialog();
+            
+            loadDialog.Title = LOAD_CONFIRM;
+            loadDialog.PrimaryButtonText = CONFIRM;
+            loadDialog.CloseButtonText = CANCEL;
+
+            ContentDialogResult result = await loadDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {

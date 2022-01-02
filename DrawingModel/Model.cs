@@ -24,6 +24,7 @@ namespace DrawingModel
         ShapeTool _shapeTool = new ShapeTool();
         private const string UPLOAD_FILE_NAME = "shapes.txt";
         private const string DOWNLOAD_PATH = "./";
+        private const string DRAWING_LINE_STATE = "DrawingLineState";
         GoogleDriveService _service;
 
         public Model()
@@ -116,7 +117,7 @@ namespace DrawingModel
         // CheckLineButtonEnabled
         public bool IsLineButtonEnabled()
         {
-            return _hintShape.GetType().Name != LINE;
+            return _mouseState.GetType().Name != DRAWING_LINE_STATE;
         }
 
         // PrepareLinkLine
@@ -269,12 +270,6 @@ namespace DrawingModel
         {
             if (_shapeNotSelected != null)
                 _shapeNotSelected();
-        }
-
-        // GetHintShape
-        public Shape GetHintShape()
-        {
-            return _hintShape;
         }
 
         // IsSelected

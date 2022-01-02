@@ -31,11 +31,11 @@ namespace DrawingForm
             _model._modelChanged += HandleModelChanged;
             _model._shapeSelected += HandleShapeSelected;
             _model._shapeNotSelected += HandleShapeNotSelected;
-
             _shapesButton.Add(_rectangle);
             _shapesButton.Add(_ellipse);
             _shapesButton.Add(_line);
             PrepareUndoRedoToolStrip();
+            _load.Enabled = false;
         }
 
         // PrepareUndoRedoToolStrip
@@ -150,13 +150,13 @@ namespace DrawingForm
         private async void ClickSaveButton(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("確定要儲存嗎?", "儲存", MessageBoxButtons.OKCancel);
-
             if (result == DialogResult.OK)
             {
                 await Task.Run(() => 
                 { 
                     _model.Save(); 
                 });
+                _load.Enabled = true;
             }
         }
 

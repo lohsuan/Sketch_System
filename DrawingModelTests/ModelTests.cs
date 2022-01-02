@@ -77,24 +77,22 @@ namespace DrawingModel.Tests
         [TestMethod()]
         public void ChangeShapeTest()
         {
-            Assert.AreEqual("DrawingModel.Shape", _modelPrivate.GetFieldOrProperty("_hintShape").ToString());
+            Assert.AreEqual("DrawingModel.PointerState", _modelPrivate.GetFieldOrProperty("_mouseState").ToString());
             _model.ChangeShape("Rectangle");
-            Assert.AreEqual("DrawingModel.Rectangle", _modelPrivate.GetFieldOrProperty("_hintShape").ToString());
-            _model.ChangeShape("Ellipse");
-            Assert.AreEqual("DrawingModel.Ellipse", _modelPrivate.GetFieldOrProperty("_hintShape").ToString());
+            Assert.AreEqual("DrawingModel.DrawingState", _modelPrivate.GetFieldOrProperty("_mouseState").ToString());
         }
 
         // ChangeBadShapeTest
         [TestMethod()]
         public void ChangeBadShapeTest()
         {
-            _model.ChangeShape("Triangle"); // no this shape
+            _model.ChangeShape("PointerState"); // no this shape
 
-            Assert.AreEqual("DrawingModel.Shape", _modelPrivate.GetFieldOrProperty("_hintShape").ToString());
+            Assert.AreEqual("DrawingModel.DrawingState", _modelPrivate.GetFieldOrProperty("_mouseState").ToString());
             _model.ChangeShape("Rectangle");
-            Assert.AreEqual("DrawingModel.Rectangle", _modelPrivate.GetFieldOrProperty("_hintShape").ToString());
-            _model.ChangeShape("Ellipse");
-            Assert.AreEqual("DrawingModel.Ellipse", _modelPrivate.GetFieldOrProperty("_hintShape").ToString());
+            Assert.AreEqual("DrawingModel.DrawingState", _modelPrivate.GetFieldOrProperty("_mouseState").ToString());
+            _model.ChangeShape("Line");
+            Assert.AreEqual("DrawingModel.DrawingLineState", _modelPrivate.GetFieldOrProperty("_mouseState").ToString());
         }
 
         // HandlePointerPressedTest
@@ -106,10 +104,6 @@ namespace DrawingModel.Tests
             Assert.AreEqual(false, _modelPrivate.GetFieldOrProperty("_isPressed"));
 
             _model.HandlePointerPressed(100, 200);
-            Assert.AreEqual(100.0, _modelPrivate.GetFieldOrProperty("_firstPointX"));
-            Assert.AreEqual(200.0, _modelPrivate.GetFieldOrProperty("_firstPointY"));
-            Assert.AreEqual(100.0, _model.GetHintShape().X1);
-            Assert.AreEqual(200.0, _model.GetHintShape().Y1);
             Assert.AreEqual(true, _modelPrivate.GetFieldOrProperty("_isPressed"));
         }
 
@@ -125,8 +119,6 @@ namespace DrawingModel.Tests
             _model.HandlePointerPressed(100, 200);
             _model.HandlePointerMoved(200, 300);
 
-            Assert.AreEqual(200.0, _model.GetHintShape().X2);
-            Assert.AreEqual(300.0, _model.GetHintShape().Y2);
             Assert.AreEqual(1, _event);
         }
 
@@ -145,7 +137,7 @@ namespace DrawingModel.Tests
 
             List<Shape> shapes = (List<Shape>)_modelPrivate.GetFieldOrProperty("_shapes");
             Assert.AreEqual(0, shapes.Count);
-            Assert.AreEqual(2, _event);
+            Assert.AreEqual(3, _event);
         }
 
         // DrawingRectangleTest
@@ -153,7 +145,6 @@ namespace DrawingModel.Tests
         public void DrawingRectangleTest()
         {
             _model.ChangeShape("Rectangle");
-            Assert.AreEqual("DrawingModel.Rectangle", _modelPrivate.GetFieldOrProperty("_hintShape").ToString());
             _model.HandlePointerPressed(100, 200);
             _model.HandlePointerMoved(200, 300);
             _model.HandlePointerReleased(200, 300);
@@ -362,7 +353,6 @@ namespace DrawingModel.Tests
             Assert.AreEqual("Selected : Ellipse(100, 200, 200, 300)", _model.GetShapeInfo());
         }
 
-
         // DrawTwoEllipsesAndOneLineTest
         [TestMethod()]
         public void DrawTwoEllipsesAndOneLineTest()
@@ -396,7 +386,7 @@ namespace DrawingModel.Tests
             Assert.AreEqual(5, mockIGraphicsAdaptor.GetCount());
         }
 
-        // DrawTwoEllipsesAndOneLineTest
+        // DrawNotSutibleLineTest
         [TestMethod()]
         public void DrawNotSutibleLineTest()
         {
@@ -416,7 +406,12 @@ namespace DrawingModel.Tests
             shapes = (List<Shape>)_modelPrivate.GetFieldOrProperty("_shapes");
             Assert.AreEqual(2, shapes.Count);
 
-            _model.ChangeShape("Line");
+            _model.ChangeShape("Line"); // no end shape line
+            _model.HandlePointerPressed(150, 150);
+            _model.HandlePointerMoved(600, 600);
+            _model.HandlePointerReleased(600, 600);
+
+            _model.ChangeShape("Line"); // no start shape line
             _model.HandlePointerPressed(10, 30);
             _model.HandlePointerMoved(120, 180);
             
@@ -448,7 +443,6 @@ namespace DrawingModel.Tests
             _model.HandlePointerReleased(410, 430);
             Assert.IsFalse(_model.IsLineButtonEnabled()); // draw line again
         }
-
 
         // DeleteLastShapeTest
         [TestMethod()]
@@ -562,6 +556,105 @@ namespace DrawingModel.Tests
             Assert.AreEqual(2, shapes.Count);
             Assert.IsTrue(_model.IsUndoEnabled());
             Assert.IsFalse(_model.IsRedoEnabled());
+        }
+
+        // IsSelectedTest
+        [TestMethod()]
+        public void IsSelectedTest()
+        {
+            _model.ChangeShape("Ellipse");
+            _model.HandlePointerPressed(100, 100);
+            _model.HandlePointerMoved(200, 200);
+            _model.HandlePointerReleased(200, 200);
+
+            _model.HandlePointerPressed(150, 150);
+            _model.HandlePointerMoved(155, 155);
+            _model.HandlePointerReleased(155, 155);
+
+            Assert.IsTrue(_model.IsSelected());
+
+            _model.HandlePointerPressed(300, 300);
+            _model.HandlePointerMoved(300, 300);
+            _model.HandlePointerReleased(300, 300);
+
+            Assert.IsFalse(_model.IsSelected());
+        }
+
+        // MoveShapeUndoAndRedoTest
+        [TestMethod()]
+        public void MoveShapeUndoAndRedoTest()
+        {
+            // draw
+            _model.ChangeShape("Ellipse");
+            _model.HandlePointerPressed(100, 100);
+            _model.HandlePointerMoved(200, 200);
+            _model.HandlePointerReleased(200, 200);
+            // select shape
+            _model.HandlePointerPressed(150, 150);
+            _model.HandlePointerMoved(155, 155);
+            _model.HandlePointerReleased(155, 155);
+            Assert.IsTrue(_model.IsSelected());
+            // move shape
+            _model.HandlePointerPressed(150, 150);
+            _model.HandlePointerMoved(170, 170);
+            _model.HandlePointerReleased(170, 170);
+            List<Shape> shapes = (List<Shape>)_modelPrivate.GetFieldOrProperty("_shapes");
+            Assert.AreEqual(120, shapes[0].X1);
+            Assert.AreEqual(120, shapes[0].Y1);
+            Assert.AreEqual(220, shapes[0].X2);
+            Assert.AreEqual(220, shapes[0].Y2);
+            // undo move
+            _model.Undo();
+            shapes = (List<Shape>)_modelPrivate.GetFieldOrProperty("_shapes");
+            Assert.AreEqual(100, shapes[0].X1);
+            Assert.AreEqual(100, shapes[0].Y1);
+            Assert.AreEqual(200, shapes[0].X2);
+            Assert.AreEqual(200, shapes[0].Y2);
+            // redo move
+            _model.Redo();
+            shapes = (List<Shape>)_modelPrivate.GetFieldOrProperty("_shapes");
+            Assert.AreEqual(120, shapes[0].X1);
+            Assert.AreEqual(120, shapes[0].Y1);
+            Assert.AreEqual(220, shapes[0].X2);
+            Assert.AreEqual(220, shapes[0].Y2);
+        }
+
+        // SaveAndLoadTest
+        [TestMethod()]
+        public void SaveAndLoadTest()
+        {
+            _model.ChangeShape("Ellipse");
+            _model.HandlePointerPressed(100, 100);
+            _model.HandlePointerMoved(200, 200);
+            _model.HandlePointerReleased(200, 200);
+
+            _model.ChangeShape("Ellipse");
+            _model.HandlePointerPressed(300, 300);
+            _model.HandlePointerMoved(500, 500);
+            _model.HandlePointerReleased(500, 500);
+
+            _model.ChangeShape("Line");
+            _model.HandlePointerPressed(410, 430);
+            _model.HandlePointerMoved(120, 180);
+            _model.HandlePointerReleased(120, 180);
+
+            _model.Save();
+
+            List<Shape> shapes = (List<Shape>)_modelPrivate.GetFieldOrProperty("_shapes");
+            Assert.AreEqual("Ellipse 100 100 200 200", shapes[0].GetShapeOutputFormat());
+            Assert.AreEqual(0, shapes[0].OrderIndex);
+            Assert.AreEqual("Line 0 0 0 0 1 0", shapes[2].GetShapeOutputFormat());
+            Assert.AreEqual(2, shapes[2].OrderIndex);
+
+            _model.Clear();
+
+            _model.Load();
+            shapes = (List<Shape>)_modelPrivate.GetFieldOrProperty("_shapes");
+            Assert.AreEqual(3, shapes.Count);
+            Assert.AreEqual(100, shapes[0].X1);
+            Assert.AreEqual(100, shapes[0].Y1);
+            Assert.AreEqual(200, shapes[0].X2);
+            Assert.AreEqual(200, shapes[0].Y2);
         }
     }
 }
