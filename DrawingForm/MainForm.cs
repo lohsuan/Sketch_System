@@ -147,13 +147,13 @@ namespace DrawingForm
         }
 
         // ClickSaveButton
-        private void ClickSaveButton(object sender, EventArgs e)
+        private async void ClickSaveButton(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("確定要儲存嗎?", "儲存", MessageBoxButtons.OKCancel);
 
             if (result == DialogResult.OK)
             {
-                _model.Save();
+                await Task.Run(() => { _model.Save(); });
             }
         }
 
@@ -164,7 +164,9 @@ namespace DrawingForm
 
             if (result == DialogResult.OK)
             {
+                Cursor.Current = Cursors.WaitCursor;
                 _model.Load();
+                Cursor.Current = Cursors.Default;
             }
         }
     }
