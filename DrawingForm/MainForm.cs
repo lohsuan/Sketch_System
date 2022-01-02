@@ -153,14 +153,17 @@ namespace DrawingForm
 
             if (result == DialogResult.OK)
             {
-                await Task.Run(() => { _model.Save(); });
+                await Task.Run(() => 
+                { 
+                    _model.Save(); 
+                });
             }
         }
 
         // ClickLoadButton
         private void ClickLoadButton(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("是否要重新載入?", "載入", MessageBoxButtons.OKCancel);
+            DialogResult result = MessageBox.Show("確定要重新載入?", "重新載入", MessageBoxButtons.OKCancel);
 
             if (result == DialogResult.OK)
             {

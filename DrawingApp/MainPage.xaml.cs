@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -53,6 +54,8 @@ namespace DrawingApp
             _line.Click += HandleShapeButtonClick;
             _undo.Click += UndoHandler;
             _redo.Click += RedoHandler;
+            _save.Click += Save;
+            _load.Click += Load;
         }
 
         // PrepareModelEventHandler
@@ -142,6 +145,48 @@ namespace DrawingApp
         {
             _model.Redo();
             HandleModelChanged();
+        }
+
+        // Save
+        async void Save(Object sender, RoutedEventArgs e)
+        {
+            ContentDialog saveDialog = new ContentDialog
+            {
+                Title = "確定要儲存嗎?",
+                PrimaryButtonText = "確定",
+                CloseButtonText = "取消"
+            };
+            ContentDialogResult result = await saveDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                await Task.Run(() =>
+                {
+                    _model.Save();
+                });
+                HandleModelChanged();
+            }
+        }
+
+        // Load
+        async void Load(Object sender, RoutedEventArgs e)
+        {
+            ContentDialog saveDialog = new ContentDialog
+            {
+                Title = "確定要重新載入?",
+                PrimaryButtonText = "確定",
+                CloseButtonText = "取消"
+            };
+            ContentDialogResult result = await saveDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                await Task.Run(() =>
+                {
+                    _model.Load();
+                });
+                HandleModelChanged();
+            }
         }
     }
 }

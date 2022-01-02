@@ -28,10 +28,6 @@ namespace DrawingModel
 
         public Model()
         {
-            const string APPLICATION_NAME = "DrawAnywhere";
-            const string CLIENT_SECRET_FILE_NAME = "clientSecret.json";
-            _service = new GoogleDriveService(APPLICATION_NAME, CLIENT_SECRET_FILE_NAME);
-
             SetPointerState();
         }
 
@@ -290,6 +286,10 @@ namespace DrawingModel
         // Save
         public void Save()
         {
+            const string APPLICATION_NAME = "DrawAnywhere";
+            const string CLIENT_SECRET_FILE_NAME = "clientSecret.json";
+            _service = new GoogleDriveService(APPLICATION_NAME, CLIENT_SECRET_FILE_NAME);
+
             _shapeTool.SaveShapesToFile(_shapes);
             const string CONTENT_TYPE = "text/txt";
             _service.UploadFile(UPLOAD_FILE_NAME, CONTENT_TYPE);
