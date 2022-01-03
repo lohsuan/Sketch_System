@@ -148,7 +148,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="..\..\Tutorial_GoogleDrive\Sample files\clientSecret.json">
+    <None Include="..\DrawingModel\clientSecret.json">
       <Link>clientSecret.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

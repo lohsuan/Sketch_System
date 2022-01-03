@@ -28,10 +28,10 @@ namespace DrawingModelUITest
         {
             RobotTest.ClickButton("Rectangle");
             RobotTest.AssertButtonEnable("Rectangle", false);
-            RobotTest.MouseDraw(100, 100, 150, 150);
+            RobotTest.MouseDraw(50, 50, 150, 150);
             RobotTest.AssertButtonEnable("Rectangle", true);
             RobotTest.MouseDraw(130, 130, 131, 131);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Rectangle(100, 100, 150, 150)");
+            RobotTest.AssertText("_shapeInfoLabel", "Selected : Rectangle(50, 50, 150, 150)");
          
             RobotTest.ClickButton("Clear");
         }
@@ -168,6 +168,8 @@ namespace DrawingModelUITest
         {
             RobotTest.AssertButtonEnable("Undo", false);
             RobotTest.AssertButtonEnable("Redo", false);
+            RobotTest.AssertButtonEnable("Save", true);
+            RobotTest.AssertButtonEnable("Load", false);
 
             RobotTest.ClickButton("Ellipse");
             RobotTest.MouseDraw(200, 150, 400, 250);
@@ -217,6 +219,9 @@ namespace DrawingModelUITest
             RobotTest.SendKeyEnterToMessageBox();
 
             RobotTest.ClickButton("Clear");
+
+            RobotTest.AssertButtonEnable("Save", true);
+            RobotTest.AssertButtonEnable("Load", true);
 
             RobotTest.ClickButton("Load");
             RobotTest.SendKeyEnterToMessageBox();
