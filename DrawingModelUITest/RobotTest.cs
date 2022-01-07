@@ -63,6 +63,12 @@ namespace DrawingModelUITest
             Mouse.StopDragging(canvas, new Point(x2, y2));
         }
 
+        // MouseClick
+        public static void MouseClick(int x1, int y1)
+        {
+            MouseDraw(x1, y1, x1, y1);
+        }
+
         // FindPanel
         public static WinClient FindPanel(string title)
         {
@@ -305,6 +311,23 @@ namespace DrawingModelUITest
         public static void AssertWindowsContainLabelText(string name)
         {
             WinText edit = (WinText)RobotTest.FindWinControl(typeof(WinText), name, _root);
+        }
+
+        // test
+        public static void AssertShapeText(string name, string expectValue)
+        {
+            WinText edit = (WinText)RobotTest.FindWinControl(typeof(WinText), name, _root);
+            string actualText = edit.DisplayText;
+            string[] expect = expectValue.Split(')')[0].Split('(');
+            string[] actual = actualText.Split(')')[0].Split('(');
+            Assert.AreEqual(expect[0], actual[0]);
+
+            string[] expectPosition = expect[1].Split(',');
+            string[] actualPosition = actual[1].Split(',');
+            Assert.AreEqual(Int32.Parse(expectPosition[0]), Int32.Parse(actualPosition[0]), 1);
+            Assert.AreEqual(Int32.Parse(expectPosition[1]), Int32.Parse(actualPosition[1]), 1);
+            Assert.AreEqual(Int32.Parse(expectPosition[2]), Int32.Parse(actualPosition[2]), 1);
+            Assert.AreEqual(Int32.Parse(expectPosition[3]), Int32.Parse(actualPosition[3]), 1);
         }
 
         // test

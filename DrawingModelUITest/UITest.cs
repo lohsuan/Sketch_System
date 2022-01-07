@@ -31,7 +31,7 @@ namespace DrawingModelUITest
             RobotTest.MouseDraw(50, 50, 150, 150);
             RobotTest.AssertButtonEnable("Rectangle", true);
             RobotTest.MouseDraw(130, 130, 131, 131);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Rectangle(50, 50, 150, 150)");
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Rectangle(50, 50, 150, 150)");
          
             RobotTest.ClickButton("Clear");
         }
@@ -45,7 +45,7 @@ namespace DrawingModelUITest
             RobotTest.MouseDraw(300, 130, 450, 250);
             RobotTest.AssertButtonEnable("Ellipse", true);
             RobotTest.MouseDraw(340, 150, 340, 150);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Ellipse(300, 130, 450, 250)");
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Ellipse(300, 130, 450, 250)");
 
             RobotTest.ClickButton("Clear");
         }
@@ -60,7 +60,7 @@ namespace DrawingModelUITest
             RobotTest.MouseDraw(100, 100, 150, 150);
             RobotTest.AssertButtonEnable("Rectangle", true);
             RobotTest.MouseDraw(130, 130, 131, 131);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Rectangle(100, 100, 150, 150)");
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Rectangle(100, 100, 150, 150)");
 
             // Ellipse
             RobotTest.ClickButton("Ellipse");
@@ -68,7 +68,7 @@ namespace DrawingModelUITest
             RobotTest.MouseDraw(300, 130, 450, 250);
             RobotTest.AssertButtonEnable("Ellipse", true);
             RobotTest.MouseDraw(340, 150, 340, 150);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Ellipse(300, 130, 450, 250)");
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Ellipse(300, 130, 450, 250)");
 
             // Line
             RobotTest.ClickButton("Line");
@@ -151,13 +151,13 @@ namespace DrawingModelUITest
             RobotTest.MouseDraw(300, 130, 450, 250);
             // select
             RobotTest.MouseDraw(340, 150, 340, 150);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Ellipse(300, 130, 450, 250)");
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Ellipse(300, 130, 450, 250)");
             
             // move (20, 20) 
             RobotTest.MouseDraw(340, 150, 360, 170);
             // select
-            RobotTest.MouseDraw(340, 150, 340, 150);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Ellipse(320, 150, 470, 270)");
+            RobotTest.MouseDraw(360, 170, 360, 170);
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Ellipse(320, 150, 470, 270)");
 
             RobotTest.ClickButton("Clear");
         }
@@ -210,7 +210,7 @@ namespace DrawingModelUITest
             RobotTest.MouseDraw(370, 320, 270, 220);
             // select
             RobotTest.MouseDraw(270, 220, 270, 220);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Ellipse(252, 200, 363, 238)");
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Ellipse(252, 200, 363, 238)");
 
             ////////////// finish draw ///////////////
 
@@ -230,13 +230,15 @@ namespace DrawingModelUITest
 
             // select loaded shape
             RobotTest.MouseDraw(150, 200, 150, 200);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Rectangle(140, 173, 173, 223)");
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Rectangle(140, 173, 173, 223)");
 
             RobotTest.MouseDraw(270, 220, 270, 220);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Ellipse(252, 200, 363, 238)");
+            RobotTest.MouseDraw(270, 220, 270, 220);
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Ellipse(252, 200, 363, 238)");
 
             RobotTest.MouseDraw(460, 200, 460, 200);
-            RobotTest.AssertText("_shapeInfoLabel", "Selected : Rectangle(445, 173, 471, 223)");
+            RobotTest.MouseDraw(460, 200, 460, 200);
+            RobotTest.AssertShapeText("_shapeInfoLabel", "Selected : Rectangle(445, 173, 471, 223)");
         }
 
         // Cleanup
